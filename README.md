@@ -1,2 +1,3 @@
-# PreforiaBot
-PreforiaBot's source codes. Developed by L1ski &amp; Nikkez.
+This is the official PreforiaBot github repository.
+
+The owner of this brach is L1ski, but it has couple developers.
