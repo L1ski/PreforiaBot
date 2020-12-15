@@ -17,7 +17,7 @@ var queue = [];
 
 //Discord
 const client = new Discord.Client({ disableEveryone: true });
-client.login(token)
+client.login(TOKEN)
 
 
 client.on('ready', () => {
