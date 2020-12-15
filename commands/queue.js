@@ -33,7 +33,6 @@ module.exports = {
         getServerPlaylist(args.slice(0).join(" "));
 
         function getServerPlaylist(playlist) {
-    
             return playlist;
         }
     }

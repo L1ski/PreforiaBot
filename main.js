@@ -11,9 +11,7 @@ const opts = {
     type: 'video'
 };
 
-var queue = [];
-
-
+var queue = []; // The queue list that is used globally.
 
 //Discord
 const client = new Discord.Client({ disableEveryone: true });
@@ -21,7 +19,7 @@ client.login(TOKEN)
 
 
 client.on('ready', () => {
-    console.log(`< ${client.user.tag} > Is Online!`)
+    console.log(client.user.tag + ' Online!')
     client.user.setActivity('preforia.net', ({ type: 'PLAYING' }))
 });
 
@@ -34,10 +32,10 @@ for(const file of commandFiles){
     client.commands.set(command.name, command);
 }
 
-
+LogMessages = true;
 
 client.on('message', message => {
-    console.log(`${message.channel.name} >> ${message.author.tag} > ${message.content}`)
+    if (LogMessages) LogMessage(message.author.username, message.channel.name, message.content)
     if(!message.content.startsWith(PREFIX) || message.author.bot) return;
     let args = message.content.slice(PREFIX.length).split(" ")
     const command = args.shift();
@@ -51,35 +49,27 @@ client.on('message', message => {
             client.commands.get('status').execute(message, Discord, Server);
             break;
         case 'play':
-            message.delete();
             client.commands.get('play').execute(message, Discord, args, ytdl, opts, search, queue);
             break;
         case 'stop':
-            message.delete();
-            client.commands.get('stop').execute(message, Discord);
+            client.commands.get('stop').execute(message, Discord, queue);
             break;
         case 'skip':
-            message.delete();
             client.commands.get('skip').execute(message, Discord, ytdl, queue);
             break;
         case 'search':
-            message.delete();
             client.commands.get('search').execute(message, Discord, args, search, opts, ytdl);
             break;
         case 'queue':
-            message.delete();
-            client.commands.get('queue').execute(message, Discord, args, ytdl);
+            client.commands.get('queue').execute(message, Discord, args, ytdl, queue);
             break;
         case 'clear':
-            message.delete();
             client.commands.get('clear').execute(message, Discord, args);
             break;
         case 'vote':
-            message.delete();
             client.commands.get('vote').execute(message, Discord, args);
             break;
         default:
-            message.delete();
             const errorEmbed = new Discord.MessageEmbed()
             .setColor('00E8FF')
             .setDescription(':warning: That command does not exist. Type `!help` for list of commands.')
@@ -88,3 +78,7 @@ client.on('message', message => {
         })
     }
 })
+
+function LogMessage(author, channel, message) {
+    console.log(author + ' in ' + channel + ' >> ' + message)
+}

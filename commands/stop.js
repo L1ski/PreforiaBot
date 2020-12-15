@@ -1,7 +1,7 @@
 module.exports = {
     name: "stop",
     description: "Stops the song",
-    execute(message, Discord) {
+    execute(message, Discord, queue) {
 
         const voiceChannel = message.member.voice.channel
 
