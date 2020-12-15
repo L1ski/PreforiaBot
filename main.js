@@ -14,7 +14,6 @@ const opts = {
 var queue = [];
 
 
-//Muutos 5000
 
 //Discord
 const client = new Discord.Client({ disableEveryone: true });
