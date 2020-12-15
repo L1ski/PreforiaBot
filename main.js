@@ -2,12 +2,12 @@
 const Discord = require('discord.js')
 const Server = require('minecraft-server-util');
 const ytdl = require('ytdl-core');
-const {PREFIX, token} = require('./config.json');
+const {PREFIX, TOKEN, YT_API_KEY} = require('./config.json');
 const search = require('youtube-search');
 const fs = require('fs');
 const opts = {
     maxResults: 3,
-    key: 'AIzaSyDo7-NnYlho_6KB_qAUXHJX5kmvSFCnWbk',
+    key: YT_API_KEY,
     type: 'video'
 };
 
@@ -21,7 +21,6 @@ client.login(token)
 
 
 client.on('ready', () => {
-
     console.log(`< ${client.user.tag} > Is Online!`)
     client.user.setActivity('preforia.net', ({ type: 'PLAYING' }))
 });
@@ -29,27 +28,21 @@ client.on('ready', () => {
 
 //Command Handler
 client.commands = new Discord.Collection();
-
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'))
 for(const file of commandFiles){
     const command = require(`./commands/${file}`);
-
     client.commands.set(command.name, command);
 }
 
 
 
 client.on('message', message => {
-
     console.log(`${message.channel.name} >> ${message.author.tag} > ${message.content}`)
-
     if(!message.content.startsWith(PREFIX) || message.author.bot) return;
-
     let args = message.content.slice(PREFIX.length).split(" ")
     const command = args.shift();
 
-
-    //All Commands
+    //Handling commands
     switch(command.toLowerCase()) {
         case 'help':
             client.commands.get('help').execute(message, Discord);
